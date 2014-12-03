@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ShoppingCart.Domain.Enum;
 using ShoppingCart.Exceptions;
 
 namespace ShoppingCart.Domain
@@ -41,15 +39,15 @@ namespace ShoppingCart.Domain
 
 			switch (this.Discount.Type)
 			{
-				case "fixed":
+				case DiscountType.Fixed:
 					discountValue = this.Discount.Amount;
 					break;
-				case "percentage":
+				case DiscountType.Percentage:
 					var totalPrice = this.GetTotalPrice();
 					discountValue = (totalPrice/100)*this.Discount.Amount;
 					break;
 				default:
-					throw new UnknownDiscountTypeException {UnknownType = this.Discount.Type};
+					throw new DiscountTypeNotImplementedException {NotImplementedDiscountType = this.Discount.Type};
 			}
 
 			return discountValue;

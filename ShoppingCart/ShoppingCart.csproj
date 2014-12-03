@@ -49,9 +49,11 @@
     <Compile Include="Data\DiscountModel.cs" />
     <Compile Include="Data\ProductModel.cs" />
     <Compile Include="Domain\Discount.cs" />
+    <Compile Include="Domain\Enum\DiscountType.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Product.cs" />
     <Compile Include="Domain\ShoppingCart.cs" />
+    <Compile Include="Exceptions\DiscountTypeNotImplementedException.cs" />
     <Compile Include="Exceptions\UnknownDiscountTypeException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
