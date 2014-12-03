@@ -57,6 +57,9 @@
     <Compile Include="Exceptions\UnknownDiscountTypeException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\DiscountStep.cs" />
+    <Compile Include="Steps\ProductStep.cs" />
+    <Compile Include="Steps\ResultStep.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
