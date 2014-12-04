@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ShoppingCart.Data;
 
 namespace ShoppingCart.Steps
@@ -7,41 +8,41 @@ namespace ShoppingCart.Steps
 	{
 		private readonly ProductModel _productModel;
 
-		public ProductStep(ProductModel productModel)
+		private readonly Domain.ShoppingCart _shoppingCart;
+
+		public ProductStep(ProductModel productModel, Domain.ShoppingCart shoppingCart)
 		{
 			this._productModel = productModel;
+			this._shoppingCart = shoppingCart;
 		}
 
-		public void Run(ref Domain.ShoppingCart shoppingCart)
+		public void Run()
 		{
 			bool isFinished = false;
 
 			while (!isFinished)
 			{
-				isFinished = this.ReadProduct(ref shoppingCart);
+				isFinished = this.ReadProduct();
 			}
 		}
 
-		public bool ReadProduct(ref Domain.ShoppingCart shoppingCart)
+		public bool ReadProduct()
 		{
-			Console.WriteLine("-> Digite o ID do produto que deseja adicionar: ");
+			int productId;
 
-			var productIdInput = Console.ReadLine();
-
-			if (String.IsNullOrWhiteSpace(productIdInput))
+			if (!this.TryReadProductId(out productId))
 			{
-				Console.WriteLine("Você precisa digitar o id do produto");
-
 				return false;
 			}
 
-			int productId;
-
-			var parseSucceeded = Int32.TryParse(productIdInput, out productId);
-
-			if (!parseSucceeded)
+			if (productId == 0)
 			{
-				Console.WriteLine("O id do produto deve ser um número inteiro (ex: 123)");
+				if (this._shoppingCart.Products.Any())
+				{
+					return true;
+				}
+
+				Console.WriteLine("!! É necessário adicionar ao menos um produto em seu carrinho");
 
 				return false;
 			}
@@ -50,23 +51,59 @@ namespace ShoppingCart.Steps
 
 			if (product == null)
 			{
-				Console.WriteLine("Nenhum produto foi encontrado para o id \"{0}\"", productId);
+				Console.WriteLine("!! Nenhum produto foi encontrado para o id '{0}'", productId);
 
 				return false;
 			}
 
-			shoppingCart.Products.Add(product);
+			if (this._shoppingCart.Products.Any(p => p.Id == product.Id))
+			{
+				Console.WriteLine("!! O produto '{0}' já está no carrinho", product.Name);
 
+				return false;
+			}
+
+			this._shoppingCart.Products.Add(product);
+
+			Console.WriteLine();
 			Console.WriteLine("O produto '{0}' foi adicionado!", product.Name);
+			Console.WriteLine();
 
 			return this.AskAddAnother();
 		}
 
+		private bool TryReadProductId(out int productId)
+		{
+			productId = 0;
+
+			Console.Write("-> Digite o ID do produto que deseja adicionar: ");
+
+			var productIdInput = Console.ReadLine();
+
+			if (String.IsNullOrWhiteSpace(productIdInput))
+			{
+				Console.WriteLine("!! Você precisa digitar o id do produto");
+
+				return false;
+			}
+
+			var parseSucceeded = Int32.TryParse(productIdInput, out productId);
+
+			if (!parseSucceeded)
+			{
+				Console.WriteLine("!! O id do produto deve ser um número inteiro (ex: 123)");
+
+				return false;
+			}
+
+			return true;
+		}
+
 		private bool AskAddAnother()
 		{
-			const string helpMessage = "Você deve digitar 'S' para Sim ou 'n' para Não";
+			const string helpMessage = "!! Você deve digitar 'S' para Sim ou 'n' para Não";
 
-			Console.WriteLine("-> Deseja adicionar outro produto [S/n]?");
+			Console.Write("-> Deseja adicionar outro produto [S/n]? ");
 
 			var addAnotherInput = Console.ReadLine();
 
@@ -74,12 +111,12 @@ namespace ShoppingCart.Steps
 			{
 				if (addAnotherInput.ToLower() == "s")
 				{
-					return true;
+					return false;
 				}
 				
 				if (addAnotherInput.ToLower() == "n")
 				{
-					return false;
+					return true;
 				}
 			}
 

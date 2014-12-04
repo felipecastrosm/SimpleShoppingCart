@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ShoppingCart.Data;
 using ShoppingCart.Steps;
 
@@ -17,12 +13,17 @@ namespace ShoppingCart
 			var shoppingCart = new Domain.ShoppingCart();
 			var productModel = new ProductModel();
 			var discountModel = new DiscountModel();
-			var productStep = new ProductStep(productModel);
-			var discountStep = new DiscountStep(discountModel);
+			var productStep = new ProductStep(productModel, shoppingCart);
+			var discountStep = new DiscountStep(discountModel, shoppingCart);
+			var resultStep = new ResultStep(shoppingCart);
 
-			productStep.Run(ref shoppingCart);
+			productStep.Run();
 
-			discountStep.Run(ref shoppingCart);
+			discountStep.Run();
+
+			resultStep.Run();
+
+			Console.ReadLine();
 		}
 	}
 }
