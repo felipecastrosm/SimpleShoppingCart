@@ -11,7 +11,7 @@
 		/// <returns></returns>
 		public static string Truncate(this string originalString, int maxSize, string suffix = "...")
 		{
-			originalString = originalString.Trim();
+			var workString = originalString.Trim();
 
 			if (originalString.Length <= maxSize)
 			{
@@ -20,7 +20,7 @@
 
 			var usableLength = maxSize - suffix.Length;
 
-			var finalString = originalString.Substring(0, usableLength) + suffix;
+			var finalString = workString.Substring(0, usableLength) + suffix;
 
 			return finalString;
 		}

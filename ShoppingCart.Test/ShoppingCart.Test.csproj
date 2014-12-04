@@ -45,6 +45,7 @@
     <Compile Include="DiscountTest.cs" />
     <Compile Include="ShoppingCartTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
