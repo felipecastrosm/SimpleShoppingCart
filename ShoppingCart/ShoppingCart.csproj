@@ -55,6 +55,7 @@
     <Compile Include="Domain\ShoppingCart.cs" />
     <Compile Include="Exceptions\DiscountTypeNotImplementedException.cs" />
     <Compile Include="Exceptions\UnknownDiscountTypeException.cs" />
+    <Compile Include="ExtensionMethods\StringExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\DiscountStep.cs" />
