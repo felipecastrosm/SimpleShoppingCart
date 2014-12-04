@@ -11,16 +11,27 @@ namespace ShoppingCart.Domain
 
 		public decimal Amount { get; set; }
 
-		public Discount(string code, string type, decimal amount)
+		public Discount()
 		{
-			this.Code = code;
+			
+		}
+
+		public Discount(string code, string type, decimal amount)
+			: this(code, amount)
+		{
 			this.Type = this.GetDiscountTypeEnumValue(type);
-			this.Amount = amount;
 		}
 
 		public Discount(string code, DiscountType type, decimal amount)
+			: this(code, amount)
 		{
-			
+			this.Type = type;
+		}
+
+		private Discount(string code, decimal amount)
+		{
+			this.Code = code;
+			this.Amount = amount;
 		}
 
 		public DiscountType GetDiscountTypeEnumValue(string type)
