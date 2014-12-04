@@ -10,7 +10,7 @@ namespace ShoppingCart.Data
 	{
 		public Product GetProductById(int id)
 		{
-			var productsJson = File.ReadAllText("/Resources/products.json");
+			var productsJson = File.ReadAllText("Resources/products.json");
 
 			var products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
 
